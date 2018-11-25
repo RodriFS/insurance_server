@@ -1,9 +1,31 @@
-const userAndAdmin = (req, res, next) => {
-  next();
+const session = (req, res, next) => {
+  if (req.session.user && req.cookies.user_sid) {
+    return next();
+  } else {
+    res.clearCookie('user_sid');
+    res.status(401);
+    res.set('Content-Type', 'text/html');
+    res.send(
+      '<h1>User is not authorized</h1>' +
+        '<p>To log in, send a JSON to the /login endpoint</p>' +
+        '<p>with the following keys: name, password.</p>' +
+        '<p>To register, send a JSON to the /register endpoint</p>' +
+        '<p>with the following keys: name, email, password</p>'
+    );
+  }
 };
 
-const adminOnly = (req, res, next) => {
-  next();
+const admin = (req, res, next) => {
+  if (req.session.user.role === 'admin') {
+    return next();
+  } else {
+    res.status(401);
+    res.set('Content-Type', 'text/html');
+    res.send(
+      '<h1>User is not authorized</h1>' +
+        '<p>You need administrator privileges to see this information</p>'
+    );
+  }
 };
 
-module.exports = { userAndAdmin, adminOnly };
+module.exports = { session, admin };
