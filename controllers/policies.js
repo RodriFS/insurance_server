@@ -1,5 +1,8 @@
 const policies = require('../models/policies');
 
+// calls fetch function from model
+// if policy exists, send the data to the user
+// else, send 'Not found'
 const byId = async (req, res) => {
   try {
     const policy = await policies.fetchById(req.params.id);
@@ -14,6 +17,9 @@ const byId = async (req, res) => {
   }
 };
 
+// calls fetch function from model
+// if policy exists, send the data to the user
+// else, send 'Not found'
 const byName = async (req, res) => {
   try {
     const policy = await policies.fetchByName(req.params.name);

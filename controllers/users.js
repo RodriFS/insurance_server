@@ -1,5 +1,8 @@
 const users = require('../models/users');
 
+// calls fetch function from model
+// if user exists, send the data to the user
+// else, send 'Not found'
 const byId = async (req, res) => {
   try {
     const user = await users.fetchById(req.params.id);
@@ -14,6 +17,9 @@ const byId = async (req, res) => {
   }
 };
 
+// calls fetch function from model
+// if user exists, send the data to the user
+// else, send 'Not found'
 const byName = async (req, res) => {
   try {
     const user = await users.fetchByName(req.params.name);

@@ -1,3 +1,6 @@
+// checks if there is a session and a cookie
+// if both exists, let the user continue
+// else, notify the user
 const session = (req, res, next) => {
   if (req.session.user && req.cookies.user_sid) {
     return next();
@@ -15,6 +18,8 @@ const session = (req, res, next) => {
   }
 };
 
+// if the user's role is admin, let the user continue
+// else, notify the user
 const admin = (req, res, next) => {
   if (req.session.user.role === 'admin') {
     return next();
