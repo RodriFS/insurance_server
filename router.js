@@ -1,29 +1,29 @@
 const users = require('./controllers/users');
 const policies = require('./controllers/policies');
-const authorization = require('./controllers/authorization');
-const authentication = require('./middlewares/authentication');
+const authentication = require('./controllers/authentication');
+const authorization = require('./middlewares/authorization');
 const router = require('express').Router();
 
 // user registration
-router.post('/register', authorization.register);
+router.post('/register', authentication.register);
 
 // user login
-router.post('/login', authorization.logIn);
+router.post('/login', authentication.logIn);
 
 // get user data filtered by user id. Can be accessed by users with
 // role 'users' and 'admin'
-router.get('/user/id/:id', authentication.session, users.byId);
+router.get('/user/id/:id', authorization.session, users.byId);
 
 // get user data filtered by user name. Can be accessed by users with
 // role 'users' and 'admin'
-router.get('/user/name/:name', authentication.session, users.byName);
+router.get('/user/name/:name', authorization.session, users.byName);
 
 // get the list of policies linked to a user name. Can be accessed by
 // users with the role 'admin' only
 router.get(
   '/policy/id/:id',
-  authentication.session,
-  authentication.admin,
+  authorization.session,
+  authorization.admin,
   policies.byId
 );
 
@@ -31,8 +31,8 @@ router.get(
 // users with the role 'admin' only
 router.get(
   '/policy/name/:name',
-  authentication.session,
-  authentication.admin,
+  authorization.session,
+  authorization.admin,
   policies.byName
 );
 
