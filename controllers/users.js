@@ -1,14 +1,32 @@
 const users = require('../models/users');
 
-const getUsers = async (req, res) => {
-  console.log('username');
+const byId = async (req, res) => {
   try {
-    const user = await users.fetchById(req.params.id_or_username);
-    res.body = user;
-    res.status = 200;
+    const user = await users.fetchById(req.params.id);
+    if (user) {
+      res.send(user);
+      res.status(200);
+    } else {
+      res.sendStatus(404);
+    }
   } catch (err) {
-    res.status = 400;
+    throw new Error(err);
   }
 };
 
-module.exports = getUsers;
+const byName = async (req, res) => {
+  try {
+    const user = await users.fetchByName(req.params.name);
+
+    if (user) {
+      res.send(user);
+      res.status(200);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+module.exports = { byId, byName };
