@@ -39,7 +39,7 @@ const register = async (req, res) => {
     // assign a role
     const hashedPassword = bcrypt.hashSync(req.body.password, 10);
     const user = await users.fetchByName(req.body.name);
-    const role = user.role || 'users';
+    const role = user ? user.role : 'users';
 
     User.create({
       name: name.toLowerCase(),
